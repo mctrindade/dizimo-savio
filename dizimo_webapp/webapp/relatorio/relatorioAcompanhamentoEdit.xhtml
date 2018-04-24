@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	<ui:composition template="../_template.xhtml">
+		<ui:define name="corpo">
+			<h:form id="formRelatorio">
+			<h:messages styleClass="erros" id="idErros"/>
+			<p:dataList value="#{relatorioMainMB.relatorios}" var="relatorio">
+				<p:fieldset id="fieldProcesso" legend="Processos">
+					<p:column>
+						<h:panelGrid columns="3">
+							<p:outputLabel for="numProcesso" value="Processo" /> 
+		            	 	<p:outputLabel id="numProcesso" value="#{relatorio.numeroProcesso}" />
+		            	 	<p:commandLink id="linkEdicaoProcesso" action="#{processoMB.carregaEdicaoRelatorio(relatorio.idProcesso)}"
+		            	 				   ajax="false">
+						        <h:outputText value="Editar Processo" />
+						    </p:commandLink>
+	   					</h:panelGrid>
+		            	<h:panelGrid columns="2">	
+		            	 	<p:outputLabel for="nomeDiario" value="Nome do arquivo:"/>
+		            	 	<h:outputText id="nomeDiario" value="${relatorio.nomeDiario}" />
+		            	 	
+		            	 	<p:outputLabel for="diario" value="Diario" />
+		            	 	<p:outputLabel id="diario" value="#{relatorio.descricaoTrecho}" />
+		            	 	
+		            	 	<p:outputLabel for="data" value="Data" /> 
+		            	 	<p:outputLabel id="data" value="#{relatorio.dataDiario}" />
+		            	 	
+		            	 	<p:outputLabel for="pagina" value="Página" /> 
+		            	 	<p:outputLabel id="pagina" value="#{relatorio.numeroPagina}" />
+		            	 	
+		            	 	<p:outputLabel for="regra" value="Regra" />
+	            	 		<h:panelGroup id="groupRegra">
+	            	 			<p:commandLink id="btEditarRegra" label="Editar Regra" action="#{regraMB.carregarEdicaoRegra(relatorio.idConsulta)}" >
+		            	 			<p:outputLabel id="regra" value="#{relatorio.regra}"/>
+		            	 		</p:commandLink>
+	            	 		</h:panelGroup>
+						</h:panelGrid>
+						<p:dataList value="#{relatorio.advogados}" var="advogado" >
+							<p:column headerText="Nome" style="text-align: center">
+								<h:outputText value="#{advogado.nomeAdvogado}" />
+							</p:column>
+						</p:dataList>
+					</p:column>
+				</p:fieldset>
+			</p:dataList>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	<ui:composition template="../_template.xhtml">
+		<ui:define name="corpo">
+			
+			<f:metadata>
+				<f:event type="preRenderView" listener="#{relatorioMainMB.iniciaConversacao}" />
+			</f:metadata>
+			
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+				
+			<p:dialog modal="true" widgetVar="statusDialog" header="Processando" 
+			        draggable="false" closable="false">
+				<p:graphicImage value="/resources/imagens/ajaxloadingbar.gif" />
+			</p:dialog>
+		
+			<h:form id="formParamProcesso">
+				<p:fieldset id="fieldProcesso" legend="Parâmetros de Pesquisa">
+					<h:messages styleClass="erros" id="idErros"/> 
+					<h:panelGrid columns="3">
+						<p:outputLabel for="dataAcomp" value="Data Acompanhamento" /> 
+	            	 	<p:calendar id="dataAcomp" value="#{relatorioMainMB.dataAcompanhamento}" locale="pt"/>
+	            	 	<p:commandLink id="buttonPesquisar" action="#{relatorioMainMB.recuperaRelatorio}" update="@form, idErros">
+							<p:graphicImage value="/resources/imagens/botoes/pesquisar.jpg" />
+						</p:commandLink>
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
