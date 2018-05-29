@@ -31,7 +31,7 @@ public class Dizimista implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Long id;
+	private String id;
 	
 	@NotNull
 	@Field(order=1, value="nome")
@@ -66,8 +66,11 @@ public class Dizimista implements Serializable {
 	@Field(order=9, value="dataCadastro")
 	private Date dataCadastro;
 	
+	public Dizimista(){
+	}
+	
 	@PersistenceConstructor
-	public Dizimista(Long id, String nome, String endereco, Igreja igreja, Date dataNascimento, String telefoneFixo,
+	public Dizimista(String id, String nome, String endereco, Igreja igreja, Date dataNascimento, String telefoneFixo,
 			String telefoneCelular, BigDecimal nsu, boolean ativo, Date dataCadastro) {
 		super();
 		this.id = id;
@@ -85,14 +88,14 @@ public class Dizimista implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -1,5 +1,7 @@
 package br.com.dizimo.bean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dizimo.entidade.Dizimista;
+import br.com.dizimo.entidade.Igreja;
+import br.com.dizimo.enums.IgrejaEnum;
 import br.com.dizimo.repositories.DizimistaRepository;
 
 
@@ -39,6 +43,18 @@ public class DizimistaBean {
 	
 	public String iniciarCadastro() {
 		return "";
+	}
+	
+	@GetMapping("/igrejas")
+	public List<Igreja> listarIgrejas() {
+		List<Igreja> igrejas = new ArrayList<>();
+		for (IgrejaEnum igrejaEnum : IgrejaEnum.values()) {
+			Igreja igreja = new Igreja();
+			igreja.setId(igrejaEnum.getId());
+			igreja.setNome(igrejaEnum.getNome());
+			igrejas.add(igreja);
+		}
+		return igrejas;
 	}
 	
 	@GetMapping("/dizimista")
@@ -74,13 +90,16 @@ public class DizimistaBean {
 	
 	@PostMapping("/dizimista")
 	public Dizimista salvar(@Valid @RequestBody Dizimista dizimista) {
+		if (dizimista.getId().equals("0")){
+			dizimista.setId(null);
+		}
 		dizimista.setDataCadastro(new Date());
 		return dizimistaRepository.save(dizimista);
 	}
 	
 	
 	@PutMapping(value="/dizimista/{id}")
-	public ResponseEntity<Dizimista> alterar(@PathVariable("id") Long id,
+	public ResponseEntity<Dizimista> alterar(@PathVariable("id") String id,
             @Valid @RequestBody Dizimista dizimista) {
 		return dizimistaRepository.findById(id)
                 .map(dizimistaData -> {
@@ -92,7 +111,7 @@ public class DizimistaBean {
 	}
 	
 	@DeleteMapping(value="/dizimista/{id}")
-	public ResponseEntity<?> excluir(@PathVariable("id") Long id) {
+	public ResponseEntity<?> excluir(@PathVariable("id") String id) {
 		 return dizimistaRepository.findById(id)
 	                .map(dizimista -> {
 	                	dizimistaRepository.deleteById(id);
@@ -101,7 +120,7 @@ public class DizimistaBean {
 	}
 	
 	@GetMapping(value="/dizimista/{id}")
-	public ResponseEntity<Dizimista> visualizarCarteirinha(@PathVariable("id") Long id) {
+	public ResponseEntity<Dizimista> visualizarCarteirinha(@PathVariable("id") String id) {
 		return dizimistaRepository.findById(id)
                 .map(dizimista -> ResponseEntity.ok().body(dizimista))
                 .orElse(ResponseEntity.notFound().build());

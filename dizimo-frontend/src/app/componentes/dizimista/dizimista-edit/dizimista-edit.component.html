@@ -1,0 +1,97 @@
+<div>{{errorMessage}}</div>
+<form [formGroup]="dizimistaForm" (ngSubmit)="save()">
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Nome</label>
+		<div class="col-md-4">
+			<input type="text" class="form-control" [formControl]="nome"/>
+		</div>
+		<div class="col-md-6">
+			<div class="error" *ngIf="nome.invalid && (nome.dirty || submitted)">
+				<div *ngIf="nome.errors.required">Nome é obrigatório</div>
+				<div *ngIf="nome.errors.minlength">Min. 3 caracteres</div>
+				<div *ngIf="nome.errors.maxlength">Máximo de 3 caracteres</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Data Nascimento</label>
+		<div class="col-md-4">
+			<input [matDatepicker]="dataNascimentoPk" [formControl]="dataNascimento"/>
+			<mat-datepicker-toggle matSuffix [for]="dataNascimentoPk"></mat-datepicker-toggle>
+			<mat-datepicker #dataNascimentoPk></mat-datepicker>
+		</div>
+		<div class="col-md-6">
+			<div class="error"
+				*ngIf="dataNascimento && (dataNascimento.dirty || submitted)">
+				<div *ngIf="dataNascimento.errors?.required">Data de Nascimento é obrigatório</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Endereço</label>
+		<div class="col-md-4">
+			<input type="text" class="form-control" [formControl]="endereco">
+		</div>
+		<div class="col-md-6">
+			<div class="error"
+				*ngIf="endereco.invalid && (endereco.dirty || submitted)">
+				<div *ngIf="endereco.errors?.required">Endereço é obrigatório</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Telefone Fixo</label>
+		<div class="col-md-4">
+			<input type="text" class="form-control"
+				[formControl]="telefoneFixo">
+		</div>
+		<div class="error"
+			*ngIf="telefoneFixo && (telefoneFixo.dirty || submitted)">
+			<div *ngIf="telefoneFixo.errors?.required">Celular é obrigatório</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Telefone Celular</label>
+		<div class="col-md-4">
+			<input type="text" class="form-control"
+				[formControl]="telefoneCelular">
+		</div>
+		<div class="col-md-6">
+			<div class="error"
+				*ngIf="telefoneCelular && (telefoneCelular.dirty || submitted)">
+				<div *ngIf="telefoneCelular.errors?.required">Celular é
+					obrigatório</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="" class="col-md-12">Igreja</label>
+		<div class="col-md-4">
+			<select class="form-control" [formControl]="igreja"
+				[ngModel]="igreja">
+				<option *ngFor="let igreja of igrejas" [ngValue]="igreja">{{igreja.nome}}</option>
+			</select>
+		</div>
+		<div class="col-md-6">
+			<div class="error"
+				*ngIf="igreja.invalid && (igreja.dirty || submitted)">
+				<div *ngIf="igreja.id != 0">Igreja é obrigatório</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-12">
+			<input type="submit" class="btn btn-primary" value="Save" /> <input
+				type="button" class="btn btn-warning" value="Cancel"
+				(click)="cancel()">
+		</div>
+	</div>
+</form>
